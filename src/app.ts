@@ -15,3 +15,6 @@ export const app = new Elysia()
   .use(swaggerPlugin)
   .use(errorHandlerMiddleware)
   .use(router);
+
+// Export App type for Eden Treaty (end-to-end type safety)
+export type App = typeof app;
