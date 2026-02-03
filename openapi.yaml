@@ -1,0 +1,93 @@
+# Auto-generated OpenAPI specification
+# Run: bun run openapi:gen
+# Do not edit manually
+#
+openapi: 3.0.3
+info:
+  title: Bun Elysia API
+  description: API server built with Bun, Elysia, and Drizzle ORM
+  version: 1.0.0
+tags:
+  - name: Health
+    description: Health check endpoints
+  - name: Auth
+    description: Authentication endpoints
+  - name: Users
+    description: User management endpoints
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas: {}
+paths:
+  /:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    const: true
+                    type: boolean
+                  data:
+                    type: object
+                    required:
+                      - message
+                    properties:
+                      message:
+                        type: string
+                required:
+                  - success
+                  - data
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  success:
+                    const: true
+                    type: boolean
+                  data:
+                    type: object
+                    required:
+                      - message
+                    properties:
+                      message:
+                        type: string
+                required:
+                  - success
+                  - data
+            text/plain:
+              schema:
+                type: object
+                properties:
+                  success:
+                    const: true
+                    type: boolean
+                  data:
+                    type: object
+                    required:
+                      - message
+                    properties:
+                      message:
+                        type: string
+                required:
+                  - success
+                  - data
+      operationId: getIndex
+      summary: API Index
+      description: Returns a welcome message
+  /healthz:
+    get:
+      responses:
+        '200':
+          description: Server is healthy
+      operationId: getHealthz
+      tags:
+        - Health
+      summary: Health check
+      description: Returns server health status and timestamp
