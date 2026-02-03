@@ -4,7 +4,7 @@ import { usersRoute } from "./v1/users.route";
 import { authRoute } from "./v1/auth.route";
 import { success } from "../utils/response";
 
-export const router = new Elysia()
+export const router = new Elysia({ name: "Router" })
   .get(
     "/",
     () => success({ message: "Hello from Elysia API" }),

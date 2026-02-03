@@ -1,7 +1,7 @@
 import { Elysia, t } from "elysia";
 import { success } from "../utils/response";
 
-export const healthRoute = new Elysia().get(
+export const healthRoute = new Elysia({ name: "Routes.Health" }).get(
   "/healthz",
   () => success({ ok: true, ts: Date.now() }),
   {
