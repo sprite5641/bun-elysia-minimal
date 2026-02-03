@@ -1,17 +1,18 @@
-import { Elysia } from "elysia";
-import { userService } from "../../modules/user/user.service";
+import { Elysia } from 'elysia';
+import { userService } from '../../modules/user/user.service';
 import {
   createUserSchema,
   updateUserSchema,
   userIdParamSchema,
   listUsersQuerySchema,
-} from "../../modules/user/user.schema";
-import { success, paginated, errors } from "../../utils/response";
+} from '../../modules/user/user.schema';
+import { success, paginated } from '../../utils/response';
+import { NotFoundError, ConflictError } from '../../utils/errors';
 
-export const usersRoute = new Elysia({ name: "Routes.Users", prefix: "/users" })
+export const usersRoute = new Elysia({ name: 'Routes.Users', prefix: '/users' })
   // List all users
   .get(
-    "/",
+    '/',
     async ({ query }) => {
       const page = query.page ?? 1;
       const limit = query.limit ?? 20;
@@ -21,44 +22,41 @@ export const usersRoute = new Elysia({ name: "Routes.Users", prefix: "/users" })
     {
       query: listUsersQuerySchema,
       detail: {
-        summary: "List users",
-        description: "Get a paginated list of all users",
-        tags: ["Users"],
+        summary: 'List users',
+        description: 'Get a paginated list of all users',
+        tags: ['Users'],
       },
-    }
+    },
   )
   // Get user by ID
   .get(
-    "/:id",
-    async ({ params, set }) => {
+    '/:id',
+    async ({ params }) => {
       const user = await userService.getUserById(params.id);
       if (!user) {
-        set.status = 404;
-        return errors.notFound("User not found");
+        throw new NotFoundError('User not found');
       }
       return success(user);
     },
     {
       params: userIdParamSchema,
       detail: {
-        summary: "Get user by ID",
-        description: "Get a specific user by their ID",
-        tags: ["Users"],
+        summary: 'Get user by ID',
+        description: 'Get a specific user by their ID',
+        tags: ['Users'],
       },
-    }
+    },
   )
   // Create new user
   .post(
-    "/",
-    async ({ body, set }) => {
+    '/',
+    async ({ body, status }) => {
       try {
         const user = await userService.createUser(body);
-        set.status = 201;
-        return success(user);
+        return status(201, success(user));
       } catch (err) {
-        if (err instanceof Error && err.message === "EMAIL_EXISTS") {
-          set.status = 409;
-          return errors.conflict("Email already exists");
+        if (err instanceof Error && err.message === 'EMAIL_EXISTS') {
+          throw new ConflictError('Email already exists');
         }
         throw err;
       }
@@ -66,27 +64,25 @@ export const usersRoute = new Elysia({ name: "Routes.Users", prefix: "/users" })
     {
       body: createUserSchema,
       detail: {
-        summary: "Create user",
-        description: "Create a new user account",
-        tags: ["Users"],
+        summary: 'Create user',
+        description: 'Create a new user account',
+        tags: ['Users'],
       },
-    }
+    },
   )
   // Update user
   .patch(
-    "/:id",
-    async ({ params, body, set }) => {
+    '/:id',
+    async ({ params, body }) => {
       try {
         const user = await userService.updateUser(params.id, body);
         if (!user) {
-          set.status = 404;
-          return errors.notFound("User not found");
+          throw new NotFoundError('User not found');
         }
         return success(user);
       } catch (err) {
-        if (err instanceof Error && err.message === "EMAIL_EXISTS") {
-          set.status = 409;
-          return errors.conflict("Email already exists");
+        if (err instanceof Error && err.message === 'EMAIL_EXISTS') {
+          throw new ConflictError('Email already exists');
         }
         throw err;
       }
@@ -95,29 +91,28 @@ export const usersRoute = new Elysia({ name: "Routes.Users", prefix: "/users" })
       params: userIdParamSchema,
       body: updateUserSchema,
       detail: {
-        summary: "Update user",
-        description: "Update an existing user",
-        tags: ["Users"],
+        summary: 'Update user',
+        description: 'Update an existing user',
+        tags: ['Users'],
       },
-    }
+    },
   )
   // Delete user
   .delete(
-    "/:id",
-    async ({ params, set }) => {
+    '/:id',
+    async ({ params }) => {
       const deleted = await userService.deleteUser(params.id);
       if (!deleted) {
-        set.status = 404;
-        return errors.notFound("User not found");
+        throw new NotFoundError('User not found');
       }
       return success({ deleted: true });
     },
     {
       params: userIdParamSchema,
       detail: {
-        summary: "Delete user",
-        description: "Delete a user by ID",
-        tags: ["Users"],
+        summary: 'Delete user',
+        description: 'Delete a user by ID',
+        tags: ['Users'],
       },
-    }
+    },
   );

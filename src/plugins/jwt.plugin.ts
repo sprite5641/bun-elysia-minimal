@@ -1,6 +1,6 @@
-import { Elysia } from "elysia";
-import { jwt } from "@elysiajs/jwt";
-import { env } from "../env";
+import { Elysia } from 'elysia';
+import { jwt } from '@elysiajs/jwt';
+import { env } from '../env';
 
 export interface JwtPayload {
   sub: string; // user id
@@ -9,10 +9,10 @@ export interface JwtPayload {
   exp?: number;
 }
 
-export const jwtPlugin = new Elysia({ name: "jwt-plugin" }).use(
+export const jwtPlugin = new Elysia({ name: 'jwt-plugin' }).use(
   jwt({
-    name: "jwt",
+    name: 'jwt',
     secret: env.JWT_SECRET,
     exp: env.JWT_EXPIRES_IN,
-  })
+  }),
 );

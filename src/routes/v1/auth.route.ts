@@ -1,3 +1,3 @@
-import { Elysia } from "elysia";
+import { Elysia } from 'elysia';
 
-export const authRoute = new Elysia({ name: "Routes.Auth", prefix: "/auth" });
+export const authRoute = new Elysia({ name: 'Routes.Auth', prefix: '/auth' });

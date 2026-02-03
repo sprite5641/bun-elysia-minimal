@@ -22,7 +22,7 @@ export type ApiResponse<T = unknown> = SuccessResponse<T> | ErrorResponse;
 /**
  * Create a success response
  */
-export function success<T>(data: T, meta?: SuccessResponse["meta"]): SuccessResponse<T> {
+export function success<T>(data: T, meta?: SuccessResponse['meta']): SuccessResponse<T> {
   return {
     success: true,
     data,
@@ -37,7 +37,7 @@ export function paginated<T>(
   data: T[],
   page: number,
   limit: number,
-  total: number
+  total: number,
 ): SuccessResponse<T[]> {
   return {
     success: true,
@@ -49,11 +49,7 @@ export function paginated<T>(
 /**
  * Create an error response
  */
-export function error(
-  message: string,
-  code: string,
-  details?: unknown
-): ErrorResponse {
+export function error(message: string, code: string, details?: unknown): ErrorResponse {
   const response: ErrorResponse = {
     success: false,
     error: {
@@ -69,24 +65,19 @@ export function error(
 
 // Common error helpers
 export const errors = {
-  badRequest: (message = "Bad request", details?: unknown) =>
-    error(message, "BAD_REQUEST", details),
+  badRequest: (message = 'Bad request', details?: unknown) =>
+    error(message, 'BAD_REQUEST', details),
 
-  unauthorized: (message = "Unauthorized") =>
-    error(message, "UNAUTHORIZED"),
+  unauthorized: (message = 'Unauthorized') => error(message, 'UNAUTHORIZED'),
 
-  forbidden: (message = "Forbidden") =>
-    error(message, "FORBIDDEN"),
+  forbidden: (message = 'Forbidden') => error(message, 'FORBIDDEN'),
 
-  notFound: (message = "Resource not found") =>
-    error(message, "NOT_FOUND"),
+  notFound: (message = 'Resource not found') => error(message, 'NOT_FOUND'),
 
-  conflict: (message = "Resource already exists") =>
-    error(message, "CONFLICT"),
+  conflict: (message = 'Resource already exists') => error(message, 'CONFLICT'),
 
-  validation: (message = "Validation failed", details?: unknown) =>
-    error(message, "VALIDATION_ERROR", details),
+  validation: (message = 'Validation failed', details?: unknown) =>
+    error(message, 'VALIDATION_ERROR', details),
 
-  internal: (message = "Internal server error") =>
-    error(message, "INTERNAL_ERROR"),
+  internal: (message = 'Internal server error') => error(message, 'INTERNAL_ERROR'),
 };

@@ -1,23 +1,55 @@
-import { t } from "elysia";
+import { t } from 'elysia';
 
 // Request schemas
 export const createUserSchema = t.Object({
-  email: t.String({ format: "email" }),
-  password: t.String({ minLength: 8 }),
+  email: t.String({
+    format: 'email',
+    error: 'Invalid email format',
+  }),
+  password: t.String({
+    minLength: 8,
+    error: 'Password must be at least 8 characters',
+  }),
 });
 
 export const updateUserSchema = t.Object({
-  email: t.Optional(t.String({ format: "email" })),
-  password: t.Optional(t.String({ minLength: 8 })),
+  email: t.Optional(
+    t.String({
+      format: 'email',
+      error: 'Invalid email format',
+    }),
+  ),
+  password: t.Optional(
+    t.String({
+      minLength: 8,
+      error: 'Password must be at least 8 characters',
+    }),
+  ),
 });
 
 export const userIdParamSchema = t.Object({
-  id: t.String({ format: "uuid" }),
+  id: t.String({
+    format: 'uuid',
+    error: 'Invalid user ID format (must be UUID)',
+  }),
 });
 
 export const listUsersQuerySchema = t.Object({
-  page: t.Optional(t.Numeric({ minimum: 1, default: 1 })),
-  limit: t.Optional(t.Numeric({ minimum: 1, maximum: 100, default: 20 })),
+  page: t.Optional(
+    t.Numeric({
+      minimum: 1,
+      default: 1,
+      error: 'Page must be a positive number',
+    }),
+  ),
+  limit: t.Optional(
+    t.Numeric({
+      minimum: 1,
+      maximum: 100,
+      default: 20,
+      error: 'Limit must be between 1 and 100',
+    }),
+  ),
 });
 
 // Response schemas

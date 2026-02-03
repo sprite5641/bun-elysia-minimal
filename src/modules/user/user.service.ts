@@ -1,10 +1,10 @@
-import { userRepo } from "./user.repo";
-import { CreateUserInput, UpdateUserInput, UserResponse } from "./user.schema";
-import { User } from "../../db/schema/users";
+import { userRepo } from './user.repo';
+import { CreateUserInput, UpdateUserInput, UserResponse } from './user.schema';
+import { User } from '../../db/schema/users';
 
 // Hash password (using Bun's built-in Argon2)
 async function hashPassword(password: string): Promise<string> {
-  return Bun.password.hash(password, { algorithm: "argon2id" });
+  return Bun.password.hash(password, { algorithm: 'argon2id' });
 }
 
 // Transform user to response (exclude password hash)
@@ -35,7 +35,7 @@ export const userService = {
     // Check if email already exists
     const existing = await userRepo.findByEmail(input.email);
     if (existing) {
-      throw new Error("EMAIL_EXISTS");
+      throw new Error('EMAIL_EXISTS');
     }
 
     const passwordHash = await hashPassword(input.password);
@@ -58,7 +58,7 @@ export const userService = {
     if (input.email && input.email !== existing.email) {
       const emailConflict = await userRepo.findByEmail(input.email);
       if (emailConflict) {
-        throw new Error("EMAIL_EXISTS");
+        throw new Error('EMAIL_EXISTS');
       }
     }
 

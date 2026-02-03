@@ -1,17 +1,17 @@
-import { Elysia, t } from "elysia";
-import { success } from "../utils/response";
+import { Elysia, t } from 'elysia';
+import { success } from '../utils/response';
 
-export const healthRoute = new Elysia({ name: "Routes.Health" }).get(
-  "/healthz",
+export const healthRoute = new Elysia({ name: 'Routes.Health' }).get(
+  '/healthz',
   () => success({ ok: true, ts: Date.now() }),
   {
     detail: {
-      tags: ["Health"],
-      summary: "Health check",
-      description: "Returns server health status and timestamp",
+      tags: ['Health'],
+      summary: 'Health check',
+      description: 'Returns server health status and timestamp',
       responses: {
         200: {
-          description: "Server is healthy",
+          description: 'Server is healthy',
         },
       },
     },
@@ -22,5 +22,5 @@ export const healthRoute = new Elysia({ name: "Routes.Health" }).get(
         ts: t.Number(),
       }),
     }),
-  }
+  },
 );

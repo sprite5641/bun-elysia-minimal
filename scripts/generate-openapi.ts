@@ -5,26 +5,24 @@
  * Output: openapi.yaml
  */
 
-import { writeFileSync } from "fs";
-import { resolve } from "path";
-import yaml from "js-yaml";
+import { writeFileSync } from 'fs';
+import { resolve } from 'path';
+import yaml from 'js-yaml';
 
 // Set required env vars for app initialization (not actually used for OpenAPI generation)
-process.env.ENABLE_SWAGGER = "true";
-process.env.DB_USER = process.env.DB_USER || "placeholder";
-process.env.DB_PASS = process.env.DB_PASS || "placeholder";
-process.env.DB_NAME = process.env.DB_NAME || "placeholder";
-process.env.REDIS_HOST = process.env.REDIS_HOST || "localhost";
+process.env.ENABLE_SWAGGER = 'true';
+process.env.DB_USER = process.env.DB_USER || 'placeholder';
+process.env.DB_PASS = process.env.DB_PASS || 'placeholder';
+process.env.DB_NAME = process.env.DB_NAME || 'placeholder';
+process.env.REDIS_HOST = process.env.REDIS_HOST || 'localhost';
 
 // Import app after setting env
-const { app } = await import("../src/app");
+const { app } = await import('../src/app');
 
 async function generateOpenAPI() {
   try {
     // Fetch the OpenAPI JSON from the swagger endpoint
-    const response = await app.handle(
-      new Request("http://localhost/docs/json")
-    );
+    const response = await app.handle(new Request('http://localhost/openapi'));
 
     if (!response.ok) {
       throw new Error(`Failed to fetch OpenAPI spec: ${response.status}`);
@@ -48,13 +46,13 @@ async function generateOpenAPI() {
 `;
 
     // Write to file
-    const outputPath = resolve(import.meta.dir, "../openapi.yaml");
-    writeFileSync(outputPath, header + openApiYaml, "utf-8");
+    const outputPath = resolve(import.meta.dir, '../openapi.yaml');
+    writeFileSync(outputPath, header + openApiYaml, 'utf-8');
 
     console.log(`OpenAPI spec generated: ${outputPath}`);
     process.exit(0);
   } catch (error) {
-    console.error("Failed to generate OpenAPI spec:", error);
+    console.error('Failed to generate OpenAPI spec:', error);
     process.exit(1);
   }
 }

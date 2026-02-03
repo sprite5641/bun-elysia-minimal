@@ -1,5 +1,5 @@
-import { treaty } from "@elysiajs/eden";
-import type { App } from "../app";
+import { treaty } from '@elysiajs/eden';
+import type { App } from '../app';
 
 /**
  * Create a type-safe API client using Eden Treaty

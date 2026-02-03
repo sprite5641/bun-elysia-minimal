@@ -1,6 +1,6 @@
-import { eq, sql } from "drizzle-orm";
-import { getDb } from "../../config/db";
-import { users, User, NewUser } from "../../db/schema/users";
+import { eq, sql } from 'drizzle-orm';
+import { getDb } from '../../config/db';
+import { users, User, NewUser } from '../../db/schema/users';
 
 export const userRepo = {
   async findAll(page: number, limit: number): Promise<{ users: User[]; total: number }> {
@@ -36,7 +36,7 @@ export const userRepo = {
     return result[0];
   },
 
-  async update(id: string, data: Partial<Omit<NewUser, "id">>): Promise<User | null> {
+  async update(id: string, data: Partial<Omit<NewUser, 'id'>>): Promise<User | null> {
     const db = getDb();
     const result = await db
       .update(users)
