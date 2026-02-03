@@ -72,4 +72,8 @@ export const env = {
   REDIS_HOST: requireEnv("REDIS_HOST"),
   REDIS_PORT: optionalInt("REDIS_PORT", 6379),
   REDIS_PASS: process.env.REDIS_PASS || undefined,
+
+  // JWT
+  JWT_SECRET: requireEnv("JWT_SECRET"),
+  JWT_EXPIRES_IN: optionalEnv("JWT_EXPIRES_IN", "7d"),
 } as const;

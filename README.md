@@ -10,6 +10,27 @@ A production-ready API starter template built with Bun and Elysia, designed for 
 - **Redis on VM** — Session/cache layer running in Docker, accessed via VPC Connector
 - **Stateless API** — All persistent state lives in Postgres and Redis
 
+## Plugins
+
+This project uses official and community Elysia plugins for best practices:
+
+| Plugin | Description |
+| ------ | ----------- |
+| `@elysiajs/cors` | Cross-Origin Resource Sharing |
+| `@elysiajs/swagger` | OpenAPI documentation at `/docs` |
+| `@elysiajs/jwt` | JWT authentication (sign/verify tokens) |
+| `@elysiajs/bearer` | Bearer token extraction from headers |
+| `@elysiajs/server-timing` | Performance monitoring via Server-Timing API |
+| `elysia-compression` | Gzip response compression |
+
+### Custom Plugins
+
+| Plugin | Description |
+| ------ | ----------- |
+| `security.plugin` | Security headers (X-Content-Type-Options, X-Frame-Options, etc.) |
+| `rate-limit.plugin` | In-memory rate limiting per IP/path |
+| `observability.plugin` | Request logging, timing, and request ID tracking |
+
 ## Architecture
 
 ```
@@ -87,6 +108,8 @@ The API is now running:
 | `REDIS_PORT`        | Redis port                         | `6379`                             |
 | `REDIS_PASS`        | Redis password (optional)          | `******`                           |
 | `ENABLE_SWAGGER`    | Enable Swagger UI                  | `true` / `false`                   |
+| `JWT_SECRET`        | Secret key for JWT signing         | `your-super-secret-key`            |
+| `JWT_EXPIRES_IN`    | JWT token expiration               | `7d`                               |
 
 ## Available Scripts
 
@@ -147,7 +170,7 @@ src/
 │   └── schema/        # Table definitions
 ├── middleware/        # Request ID, timing, error handling
 ├── modules/           # Feature modules (auth, user)
-├── plugins/           # Elysia plugins (cors, swagger, etc.)
+├── plugins/           # Elysia plugins (cors, swagger, jwt, bearer, etc.)
 ├── routes/            # API route handlers
 └── utils/             # Shared utilities
 ```
